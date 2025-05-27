@@ -85,11 +85,14 @@ for file_list in args.file_list:
 
         if args.gpu:
             image, label = image.cuda(), label.cuda()
-        start_time = time.time()
+        
         with torch.no_grad():
+            start_time = time.time()
             pred = model(image)[:, 0, :, :].unsqueeze(1)
+            diff_time = time.time() - start_time
+            print(diff_time)
             torch.cuda.synchronize()
-        diff_time = time.time() - start_time
+        
         print('\rSaliency prediction for {} dataset [{}/{}] takes {:.3f}s per image'\
                 .format(osp.dirname(image_list[idx]), idx + 1, len(image_list), diff_time),
                 end='' if idx + 1 != len(image_list) else '\n')
