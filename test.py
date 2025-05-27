@@ -66,7 +66,8 @@ for file_list in args.file_list:
             label_list.append(line_arr[1].strip())
 
     if not osp.isdir(osp.join(args.savedir, osp.dirname(image_list[0]))):
-        os.mkdir(osp.join(args.savedir, osp.dirname(image_list[0])))
+        os.makedirs(osp.join(args.savedir, osp.dirname(image_list[0])), exist_ok=True)
+
 
     saleval = SalEval()
     for idx in range(len(image_list)):
