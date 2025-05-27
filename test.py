@@ -5,7 +5,7 @@ import numpy as np
 import torch.nn.functional as F
 from argparse import ArgumentParser
 from utils import SalEval, Logger
-
+from flops import count_model_flops, count_model_params
 
 parser = ArgumentParser()
 parser.add_argument('--data_dir', default='/kaggle/input/duts-saliency-detection-dataset', type=str, help='data directory')
@@ -46,7 +46,8 @@ if args.gpu:
     model = model.cuda()
 # set to evaluation mode
 model.eval()
-
+print(f'FLOPs: {count_model_flops(model)}')
+print(f'Params: {count_model_params(model)}')
 # ImageNet statistics
 mean = np.array([0.485 * 255., 0.456 * 255., 0.406 * 255.], dtype=np.float32)
 std = np.array([0.229 * 255., 0.224 * 255., 0.225 * 255.], dtype=np.float32)
